@@ -1,138 +1,144 @@
+
 /* ===========================
    Typing Animation
 =========================== */
 
 const typing = document.querySelector(".typing");
 
-const words = [
-    "Software Engineer",
-    "Web Developer",
-    "Computer Science Student",
-    "Problem Solver",
-    "UI/UX Designer"
-];
+if (typing) {
 
-let wordIndex = 0;
-let charIndex = 0;
-let deleting = false;
+    const words = [
+        "Software Engineer",
+        "Web Developer",
+        "Computer Science Student",
+        "Problem Solver",
+        "UI/UX Designer"
+    ];
 
-function typeEffect(){
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
 
-    const currentWord = words[wordIndex];
+    function typeEffect() {
 
-    if(!deleting){
+        const currentWord = words[wordIndex];
 
-        typing.textContent = currentWord.substring(0,charIndex++);
+        if (!deleting) {
 
-        if(charIndex > currentWord.length){
+            typing.textContent = currentWord.substring(0, charIndex++);
 
-            deleting = true;
+            if (charIndex > currentWord.length) {
 
-            setTimeout(typeEffect,1500);
+                deleting = true;
 
-            return;
+                setTimeout(typeEffect, 1500);
 
-        }
-
-    }
-
-    else{
-
-        typing.textContent = currentWord.substring(0,charIndex--);
-
-        if(charIndex < 0){
-
-            deleting = false;
-
-            wordIndex++;
-
-            if(wordIndex >= words.length){
-
-                wordIndex = 0;
-
+                return;
             }
 
+        } else {
+
+            typing.textContent = currentWord.substring(0, charIndex--);
+
+            if (charIndex < 0) {
+
+                deleting = false;
+
+                wordIndex++;
+
+                if (wordIndex >= words.length) {
+                    wordIndex = 0;
+                }
+            }
         }
 
+        setTimeout(typeEffect, deleting ? 60 : 120);
     }
 
-    setTimeout(typeEffect,deleting ? 60 : 120);
-
+    typeEffect();
 }
 
-typeEffect();
 
 /* ===========================
- Smooth Scroll
+   Smooth Scroll
 =========================== */
 
-document.querySelectorAll("nav a").forEach(link=>{
+document.querySelectorAll("nav a").forEach(link => {
 
-    link.addEventListener("click",function(e){
+    link.addEventListener("click", function(e) {
 
-        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
 
-        document.querySelector(this.getAttribute("href")).scrollIntoView({
+        if (target) {
 
-            behavior:"smooth"
+            e.preventDefault();
 
-        });
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
 
     });
 
 });
 
+
 /* ===========================
- Navbar Shadow
+   Navbar Shadow
 =========================== */
 
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-    const header=document.querySelector("header");
+    const header = document.querySelector("header");
 
-    if(window.scrollY>50){
+    if (header) {
 
-        header.style.boxShadow="0 5px 25px rgba(0,0,0,.4)";
+        if (window.scrollY > 50) {
 
+            header.style.boxShadow = "0 5px 25px rgba(0,0,0,.4)";
+
+        } else {
+
+            header.style.boxShadow = "none";
+
+        }
     }
 
-    else{
-
-        header.style.boxShadow="none";
-
-    }
-
 });
-/*=========================
-Scroll to Top
-=========================*/
 
-const topBtn=document.getElementById("topBtn");
 
-window.addEventListener("scroll",()=>{
+/* ===========================
+   Scroll to Top
+=========================== */
 
-if(window.pageYOffset>300){
+const topBtn = document.getElementById("topBtn");
 
-topBtn.style.display="block";
+if (topBtn) {
+
+    window.addEventListener("scroll", () => {
+
+        if (window.pageYOffset > 300) {
+
+            topBtn.style.display = "block";
+
+        } else {
+
+            topBtn.style.display = "none";
+
+        }
+
+    });
+
+    topBtn.addEventListener("click", () => {
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    });
 
 }
-
-else{
-
-topBtn.style.display="none";
-
-}
-
-});
-
-topBtn.addEventListener("click",()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-});
